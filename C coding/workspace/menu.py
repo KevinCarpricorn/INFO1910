@@ -2,7 +2,9 @@ import py_functions
 import translation
 import os
 
-def isnum(x):
+
+# Determine if a string is an integer
+def isinteger(x):
     try:
         x = int(x)
         return isinstance(x, int)
@@ -14,7 +16,7 @@ loaded_image = []
 mode_num = 1
 print('Welcome to the PSNR image menu!')
 while True:
-    if mode_num % 2 == 0:
+    if mode_num % 2 == 0:       # check the mode
         mode = 'C'
     else:
         mode = 'Python'
@@ -25,6 +27,7 @@ while True:
     print('')
     while True:
         command = input().lower().replace(' ', '')
+        # load
         if command == 'load':
             filename = input('Enter the filename you want to load: ')
             if os.path.exists(filename) == False:       # file exist?
@@ -33,26 +36,39 @@ while True:
             elif os.path.getsize(filename) == 0:        # file empty?
                 print('Error: File is empty.')
                 break
-            with open(filename, 'r') as img:
-                image = img.readlines()
+            try:
+                with open(filename, 'r') as img:
+                    image = img.readlines()
+            except UnicodeDecodeError:
+                print('Error: Image does not appear in RGB or monochrome format.')
+                break
             flag = False
             image_list = []
             count = 0
-            for index, line in enumerate(open(filename, 'r')):
+            for index, line in enumerate(open(filename, 'r')):      # how many lines in the file
                 count += 1
             for line in image:
                 image_list.extend(line.split(','))
             for i in range(0, len(image_list)):
                 image_list[i] = image_list[i].replace('\n', '')
             for line in image:
-                if len(line.split(',')) != 3 and len(line.split(',')) != 1:
+                if len(line.split(',')) != 3 and len(line.split(',')) != 1:        # There must be 1 or 3 pixels in each row
                     print('Error: Image does not appear in RGB or monochrome format.')
                     flag = True
                     break
             if flag == True:
                 break
+            # The total number of pixels must be equal to the number of rows or three times the number of rows
             if len(image_list) != count and len(image_list) != 3*count:
-                print(print('Error: Image does not appear in RGB or monochrome format.'))
+                print('Error: Image does not appear in RGB or monochrome format.')
+                break
+            else:
+                for i in image_list:
+                    if len(i) == 0:
+                        print('Error: Image does not appear in RGB or monochrome format.')
+                        flag = True
+                        break
+            if flag == True:
                 break
             else:
                 for i in image_list:
@@ -60,7 +76,7 @@ while True:
                         print('Error: Image does not appear in RGB or monochrome format.')
                         flag = True
                         break
-                    elif isnum(i) == False:
+                    elif isinteger(i) == False:
                         print('Error: Non-integer value found in image file.')
                         flag = True
                         break
@@ -79,6 +95,7 @@ while True:
                 image_c.append(result)
             loaded_image.append(image_c)
             break
+        # show
         elif command == 'show':
             if len(loaded_image) == 0:
                 print('No loaded images to show.')
@@ -92,6 +109,7 @@ while True:
                         image_type = 'colour'
                     print('Image {}, Length {}, {}.'.format(i+1, len(loaded_image[i]), image_type))
                 break
+        # psnr-r
         elif command == 'psnr-r':
             if len(loaded_image) == 0:
                 print('No images have been loaded. No image can be selected.')
@@ -99,7 +117,7 @@ while True:
             else:
                 while True:
                     image1 = input('What is the index of the image you would like to select? ')
-                    if isnum(image1) == False:
+                    if isinteger(image1) == False:
                         print('That is not a valid integer.')
                         continue
                     elif int(image1) > len(loaded_image) or int(image1) < 1:
@@ -108,7 +126,7 @@ while True:
                         break
                 while True:
                     image2 = input('What is the index of the image you would like to select? ')
-                    if isnum(image2) == False:
+                    if isinteger(image2) == False:
                         print('That is not a valid integer.')
                         continue
                     elif int(image2) > len(loaded_image) or int(image2) < 1:
@@ -117,9 +135,11 @@ while True:
                         break
                 img1 = loaded_image[int(image1)-1]
                 img2 = loaded_image[int(image2)-1]
+                # Determining whether the image is monochrome
                 if len(img1[0]) == 1 or len(img2[0]) == 1:
                     print('One of those images is not in colour; cannot compute red PSNR.')
                     break
+                # Determine if the images are the same size
                 elif len(img1) != len(img2):
                     print('Images are not the same length; cannot compute PSNR between them.')
                     break
@@ -130,6 +150,7 @@ while True:
                     else:
                         print('Red PSNR: {}'.format(translation.call_c_r_psnr(img1, img2)))
                         break
+        # psnr-g
         elif command == 'psnr-g':
             if len(loaded_image) == 0:
                 print('No images have been loaded. No image can be selected.')
@@ -137,7 +158,7 @@ while True:
             else:
                 while True:
                     image1 = input('What is the index of the image you would like to select? ')
-                    if isnum(image1) == False:
+                    if isinteger(image1) == False:
                         print('That is not a valid integer.')
                         continue
                     elif int(image1) > len(loaded_image) or int(image1) < 1:
@@ -146,7 +167,7 @@ while True:
                         break
                 while True:
                     image2 = input('What is the index of the image you would like to select? ')
-                    if isnum(image2) == False:
+                    if isinteger(image2) == False:
                         print('That is not a valid integer.')
                         continue
                     elif int(image2) > len(loaded_image) or int(image2) < 1:
@@ -155,9 +176,11 @@ while True:
                         break
                 img1 = loaded_image[int(image1)-1]
                 img2 = loaded_image[int(image2)-1]
+                # Determining whether the image is monochrome
                 if len(img1[0]) == 1 or len(img2[0]) == 1:
                     print('One of those images is not in colour; cannot compute green PSNR.')
                     break
+                # Determine if the images are the same size
                 elif len(img1) != len(img2):
                     print('Images are not the same length; cannot compute PSNR between them.')
                     break
@@ -168,6 +191,7 @@ while True:
                     else:
                         print('Green PSNR: {}'.format(translation.call_c_g_psnr(img1, img2)))
                         break
+        # psnr-b
         elif command == 'psnr-b':
             if len(loaded_image) == 0:
                 print('No images have been loaded. No image can be selected.')
@@ -175,7 +199,7 @@ while True:
             else:
                 while True:
                     image1 = input('What is the index of the image you would like to select? ')
-                    if isnum(image1) == False:
+                    if isinteger(image1) == False:
                         print('That is not a valid integer.')
                         continue
                     elif int(image1) > len(loaded_image) or int(image1) < 1:
@@ -184,7 +208,7 @@ while True:
                         break
                 while True:
                     image2 = input('What is the index of the image you would like to select? ')
-                    if isnum(image2) == False:
+                    if isinteger(image2) == False:
                         print('That is not a valid integer.')
                         continue
                     elif int(image2) > len(loaded_image) or int(image2) < 1:
@@ -193,9 +217,11 @@ while True:
                         break
                 img1 = loaded_image[int(image1)-1]
                 img2 = loaded_image[int(image2)-1]
+                # Determining whether the image is monochrome
                 if len(img1[0]) == 1 or len(img2[0]) == 1:
                     print('One of those images is not in colour; cannot compute blue PSNR.')
                     break
+                # Determine if the images are the same size
                 elif len(img1) != len(img2):
                     print('Images are not the same length; cannot compute PSNR between them.')
                     break
@@ -206,6 +232,7 @@ while True:
                     else:
                         print('Blue PSNR: {}'.format(translation.call_c_b_psnr(img1, img2)))
                         break
+        # psnr
         elif command == 'psnr':
             if len(loaded_image) == 0:
                 print('No images have been loaded. No image can be selected.')
@@ -213,7 +240,7 @@ while True:
             else:
                 while True:
                     image1 = input('What is the index of the image you would like to select? ')
-                    if isnum(image1) == False:
+                    if isinteger(image1) == False:
                         print('That is not a valid integer.')
                         continue
                     elif int(image1) > len(loaded_image) or int(image1) < 1:
@@ -222,7 +249,7 @@ while True:
                         break
                 while True:
                     image2 = input('What is the index of the image you would like to select? ')
-                    if isnum(image2) == False:
+                    if isinteger(image2) == False:
                         print('That is not a valid integer.')
                         continue
                     elif int(image2) > len(loaded_image) or int(image2) < 1:
@@ -231,9 +258,11 @@ while True:
                         break
                 img1 = loaded_image[int(image1)-1]
                 img2 = loaded_image[int(image2)-1]
+                # Determine if the image type is the same
                 if len(img1[0]) != len(img2[0]):
                     print('Images are not the same type; cannot compute PSNR between them.')
                     break
+                # Determine if the images are the same size
                 elif len(img1) != len(img2):
                     print('Images are not the same length; cannot compute PSNR between them.')
                     break
@@ -244,9 +273,11 @@ while True:
                     else:
                         print('PSNR of images: {}'.format(translation.call_c_total_psnr(img1, img2)))
                         break
+        # mode
         elif command == 'mode':
             mode_num += 1
             break
+        # help
         elif command == 'help':
             print(' ')
             print('Commands:\n'
@@ -260,6 +291,7 @@ while True:
                   'help: Print out this command list\n'
                   'quit: Exit the PSNR Image Menu')
             break
+        # quit
         elif command == 'quit':
             exit()
         else:
