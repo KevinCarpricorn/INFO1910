@@ -95,21 +95,21 @@ float c_r_psnr(struct Image* image1, struct Image* image2) {
     int sum = 0;
     float mse;
     float psnr;
-    red1 = image1->pd.colour_pixels.red;
-    red2 = image2->pd.colour_pixels.red;
+    red1 = image1->pd.colour_pixels.red;        // all the values in red channel of image1
+    red2 = image2->pd.colour_pixels.red;        // all the values in red channel of image2
     length = image1->length;
     for (i = 0; i < length; i++)
     {
         sum += (red1[i] - red2[i]) * (red1[i] - red2[i]);
     }
-    mse = 1.0 * sum / length;
+    mse = 1.0 * sum / length;       // mean squared error(MSE)
     if (sum == 0)
     {
         return 0;
     }
     else
     {
-        psnr = 10 * log10((255 * 255 / mse));
+        psnr = 10 * log10((255 * 255 / mse));       // peak Signal-to Noise Ratio(PSNR)
         return psnr;
     }
 }
@@ -122,21 +122,21 @@ float c_g_psnr(struct Image* image1, struct Image* image2) {
     int sum = 0;
     float mse;
     float psnr;
-    green1 = image1->pd.colour_pixels.green;
-    green2 = image2->pd.colour_pixels.green;
+    green1 = image1->pd.colour_pixels.green;        // all the values in green channel of image1
+    green2 = image2->pd.colour_pixels.green;        // all the values in green channel of image2
     length = image1->length;
     for (i = 0; i < length; i++)
     {
         sum += (green1[i] - green2[i]) * (green1[i] - green2[i]);
     }
-    mse = 1.0 * sum / length;
+    mse = 1.0 * sum / length;       // mean squared error(MSE)
     if (sum == 0)
     {
         return 0;
     }
     else
     {
-        psnr = 10 * log10((255 * 255 / mse));
+        psnr = 10 * log10((255 * 255 / mse));       // peak Signal-to Noise Ratio(PSNR)
         return psnr;
     }
 }
@@ -149,21 +149,21 @@ float c_b_psnr(struct Image* image1, struct Image* image2) {
     int sum = 0;
     float mse;
     float psnr;
-    blue1 = image1->pd.colour_pixels.blue;
-    blue2 = image2->pd.colour_pixels.blue;
+    blue1 = image1->pd.colour_pixels.blue;      // all the values in blue channel of image1
+    blue2 = image2->pd.colour_pixels.blue;      // all the values in blue channel of image2
     length = image1->length;
     for (i = 0; i < length; i++)
     {
         sum += (blue1[i] - blue2[i]) * (blue1[i] - blue2[i]);
     }
-    mse = 1.0 * sum / length;
+    mse = 1.0 * sum / length;       // mean squared error(MSE)
     if (sum == 0)
     {
         return 0;
     }
     else
     {
-        psnr = 10 * log10((255 * 255 / mse));
+        psnr = 10 * log10((255 * 255 / mse));       // peak Signal-to Noise Ratio(PSNR)
         return psnr;
     }
 }
@@ -174,7 +174,8 @@ float c_total_psnr(struct Image* image1, struct Image* image2) {
     int sum = 0;
     float mse, psnr;
     is_colour = image1->is_coloured;
-    if (is_colour == 0)
+    // Determining whether they are coloured images or monochrome images
+    if (is_colour == 0)     // for monochrome images
     {
         pixel1 = image1->pd.grey_pixels;
         pixel2 = image2->pd.grey_pixels;
@@ -190,12 +191,13 @@ float c_total_psnr(struct Image* image1, struct Image* image2) {
         }
         else
         {
-            psnr = 10 * log10(255 * 255 / mse);
+            psnr = 10 * log((255 * 255 / mse)) / log(10);
             return psnr;
         }
     }
     else
     {
+        // Values for all colour channels in image1 and image2
         red1 = image1->pd.colour_pixels.red;
         red2 = image2->pd.colour_pixels.red;
         green1 = image1->pd.colour_pixels.green;
@@ -205,16 +207,18 @@ float c_total_psnr(struct Image* image1, struct Image* image2) {
         length = image1->length;
         for (i = 0; i < length; i++)
         {
-            sum += ((red1[i] - red2[i]) * (red1[i] - red2[i])) + ((green1[i] - green2[i]) * (green1[i] - green2[i])) + ((blue1[i] - blue2[i]) * (blue1[i] - blue2[i]));
+            sum += ((red1[i] - red2[i]) * (red1[i] - red2[i])) + \
+            ((green1[i] - green2[i]) * (green1[i] - green2[i])) +\
+             ((blue1[i] - blue2[i]) * (blue1[i] - blue2[i]));
         }
-        mse = 1.0 * sum / (3 * length);
+        mse = 1.0 * sum / (3 * length);     // mean squared error(MSE) for coloured images
         if (sum == 0)
         {
             return 0;
         }
         else
         {
-            psnr = 10 * log10(255 * 255 / mse);
+            psnr = 10 * log((255 * 255 / mse)) / log(10);       // peak Signal-to Noise Ratio(PSNR)
             return psnr;
         }
     }
