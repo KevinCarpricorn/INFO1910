@@ -93,8 +93,8 @@ float c_r_psnr(struct Image* image1, struct Image* image2) {
     int length;
     int i;
     int sum = 0;
-    float mse;
-    float psnr;
+    double mse;
+    double psnr;
     red1 = image1->pd.colour_pixels.red;        // all the values in red channel of image1
     red2 = image2->pd.colour_pixels.red;        // all the values in red channel of image2
     length = image1->length;
@@ -110,6 +110,7 @@ float c_r_psnr(struct Image* image1, struct Image* image2) {
     else
     {
         psnr = 10 * log10((255 * 255 / mse));       // peak Signal-to Noise Ratio(PSNR)
+        psnr = (float) psnr;
         return psnr;
     }
 }
@@ -120,8 +121,8 @@ float c_g_psnr(struct Image* image1, struct Image* image2) {
     int length;
     int i;
     int sum = 0;
-    float mse;
-    float psnr;
+    double mse;
+    double psnr;
     green1 = image1->pd.colour_pixels.green;        // all the values in green channel of image1
     green2 = image2->pd.colour_pixels.green;        // all the values in green channel of image2
     length = image1->length;
@@ -137,6 +138,7 @@ float c_g_psnr(struct Image* image1, struct Image* image2) {
     else
     {
         psnr = 10 * log10((255 * 255 / mse));       // peak Signal-to Noise Ratio(PSNR)
+        psnr = (float) psnr;
         return psnr;
     }
 }
@@ -147,8 +149,8 @@ float c_b_psnr(struct Image* image1, struct Image* image2) {
     int length;
     int i;
     int sum = 0;
-    float mse;
-    float psnr;
+    double mse;
+    double psnr;
     blue1 = image1->pd.colour_pixels.blue;      // all the values in blue channel of image1
     blue2 = image2->pd.colour_pixels.blue;      // all the values in blue channel of image2
     length = image1->length;
@@ -164,6 +166,7 @@ float c_b_psnr(struct Image* image1, struct Image* image2) {
     else
     {
         psnr = 10 * log10((255 * 255 / mse));       // peak Signal-to Noise Ratio(PSNR)
+        psnr = (float) psnr;
         return psnr;
     }
 }
@@ -172,7 +175,8 @@ float c_total_psnr(struct Image* image1, struct Image* image2) {
     int is_colour, length, i;
     int* pixel1, *pixel2, *red1, *red2, *green1, *green2, *blue1, *blue2;
     int sum = 0;
-    float mse, psnr;
+    double mse;
+    double psnr;
     is_colour = image1->is_coloured;
     // Determining whether they are coloured images or monochrome images
     if (is_colour == 0)     // for monochrome images
@@ -191,7 +195,8 @@ float c_total_psnr(struct Image* image1, struct Image* image2) {
         }
         else
         {
-            psnr = 10 * log((255 * 255 / mse)) / log(10);
+            psnr = 10 * log10((255 * 255 / mse));
+            psnr = (float) psnr;
             return psnr;
         }
     }
@@ -218,7 +223,8 @@ float c_total_psnr(struct Image* image1, struct Image* image2) {
         }
         else
         {
-            psnr = 10 * log((255 * 255 / mse)) / log(10);       // peak Signal-to Noise Ratio(PSNR)
+            psnr = 10 * log10((255 * 255/ mse));       // peak Signal-to Noise Ratio(PSNR)
+            psnr = (float) psnr;
             return psnr;
         }
     }
