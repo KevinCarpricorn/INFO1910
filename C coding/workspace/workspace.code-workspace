@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "D:\\Microsoft VS Code"
+		}
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+		
+			{
+				"type": "pwa-chrome",
+				"request": "launch",
+				"name": "Open welcome (2).html",
+				"file": "d:\\新建文件夹\\welcome (2).html"
+			}
+		]
+	}
+}
