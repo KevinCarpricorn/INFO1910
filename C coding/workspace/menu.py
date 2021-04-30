@@ -12,6 +12,33 @@ def isinteger(x):
         return False
 
 
+def ask_indexofimage1():
+    while True:
+        image1 = input('What is the index of the image you would like to select? ')
+        if isinteger(image1) == False:
+            print('That is not a valid integer.')
+            continue
+        elif int(image1) > len(loaded_image) or int(image1) < 1:
+            print('The index should be between 1 and {}.'.format(len(loaded_image)))
+        else:
+            break
+    return image1
+    
+
+
+def ask_indexofimage2():
+    while True:
+        image2 = input('What is the index of the image you would like to select? ')
+        if isinteger(image2) == False:
+            print('That is not a valid integer.')
+            continue
+        elif int(image2) > len(loaded_image) or int(image2) < 1:
+            print('The index should be between 1 and {}.'.format(len(loaded_image)))
+        else:
+            break
+    return image2
+
+
 loaded_image = []
 mode_num = 1
 print('Welcome to the PSNR image menu!')
@@ -115,24 +142,8 @@ while True:
                 print('No images have been loaded. No image can be selected.')
                 break
             else:
-                while True:
-                    image1 = input('What is the index of the image you would like to select? ')
-                    if isinteger(image1) == False:
-                        print('That is not a valid integer.')
-                        continue
-                    elif int(image1) > len(loaded_image) or int(image1) < 1:
-                        print('The index should be between 1 and {}.'.format(len(loaded_image)))
-                    else:
-                        break
-                while True:
-                    image2 = input('What is the index of the image you would like to select? ')
-                    if isinteger(image2) == False:
-                        print('That is not a valid integer.')
-                        continue
-                    elif int(image2) > len(loaded_image) or int(image2) < 1:
-                        print('The index should be between 1 and {}.'.format(len(loaded_image)))
-                    else:
-                        break
+                image1 = ask_indexofimage1()
+                image2 = ask_indexofimage2()
                 img1 = loaded_image[int(image1)-1]
                 img2 = loaded_image[int(image2)-1]
                 # Determining whether the image is monochrome
@@ -156,24 +167,8 @@ while True:
                 print('No images have been loaded. No image can be selected.')
                 break
             else:
-                while True:
-                    image1 = input('What is the index of the image you would like to select? ')
-                    if isinteger(image1) == False:
-                        print('That is not a valid integer.')
-                        continue
-                    elif int(image1) > len(loaded_image) or int(image1) < 1:
-                        print('The index should be between 1 and {}.'.format(len(loaded_image)))
-                    else:
-                        break
-                while True:
-                    image2 = input('What is the index of the image you would like to select? ')
-                    if isinteger(image2) == False:
-                        print('That is not a valid integer.')
-                        continue
-                    elif int(image2) > len(loaded_image) or int(image2) < 1:
-                        print('The index should be between 1 and {}.'.format(len(loaded_image)))
-                    else:
-                        break
+                image1 = ask_indexofimage1()
+                image2 = ask_indexofimage2()
                 img1 = loaded_image[int(image1)-1]
                 img2 = loaded_image[int(image2)-1]
                 # Determining whether the image is monochrome
@@ -197,24 +192,8 @@ while True:
                 print('No images have been loaded. No image can be selected.')
                 break
             else:
-                while True:
-                    image1 = input('What is the index of the image you would like to select? ')
-                    if isinteger(image1) == False:
-                        print('That is not a valid integer.')
-                        continue
-                    elif int(image1) > len(loaded_image) or int(image1) < 1:
-                        print('The index should be between 1 and {}.'.format(len(loaded_image)))
-                    else:
-                        break
-                while True:
-                    image2 = input('What is the index of the image you would like to select? ')
-                    if isinteger(image2) == False:
-                        print('That is not a valid integer.')
-                        continue
-                    elif int(image2) > len(loaded_image) or int(image2) < 1:
-                        print('The index should be between 1 and {}.'.format(len(loaded_image)))
-                    else:
-                        break
+                image1 = ask_indexofimage1()
+                image2 = ask_indexofimage2()
                 img1 = loaded_image[int(image1)-1]
                 img2 = loaded_image[int(image2)-1]
                 # Determining whether the image is monochrome
@@ -238,24 +217,8 @@ while True:
                 print('No images have been loaded. No image can be selected.')
                 break
             else:
-                while True:
-                    image1 = input('What is the index of the image you would like to select? ')
-                    if isinteger(image1) == False:
-                        print('That is not a valid integer.')
-                        continue
-                    elif int(image1) > len(loaded_image) or int(image1) < 1:
-                        print('The index should be between 1 and {}.'.format(len(loaded_image)))
-                    else:
-                        break
-                while True:
-                    image2 = input('What is the index of the image you would like to select? ')
-                    if isinteger(image2) == False:
-                        print('That is not a valid integer.')
-                        continue
-                    elif int(image2) > len(loaded_image) or int(image2) < 1:
-                        print('The index should be between 1 and {}.'.format(len(loaded_image)))
-                    else:
-                        break
+                image1 = ask_indexofimage1()
+                image2 = ask_indexofimage2()
                 img1 = loaded_image[int(image1)-1]
                 img2 = loaded_image[int(image2)-1]
                 # Determine if the image type is the same
