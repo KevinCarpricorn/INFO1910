@@ -53,7 +53,7 @@ while True:
     print("Mode: {}\nType 'help' to see all commands".format(mode))
     print('')
     while True:
-        command = input().lower().replace(' ', '')
+        command = input().lower().strip(' ')
         # load
         if command == 'load':
             filename = input('Enter the filename you want to load: ')
@@ -77,7 +77,7 @@ while True:
             for line in image:
                 image_list.extend(line.split(','))
             for i in range(0, len(image_list)):
-                image_list[i] = image_list[i].replace('\n', '')
+                image_list[i] = image_list[i].strip('\n')
             for line in image:
                 if len(line.split(',')) != 3 and len(line.split(',')) != 1:        # There must be 1 or 3 pixels in each row
                     print('Error: Image does not appear in RGB or monochrome format.')
@@ -115,7 +115,7 @@ while True:
                 break
             image_c = []
             for line in image:
-                result = line.replace('\n', '')
+                result = line.strip('\n')
                 result = result.split(',')
                 for i in range(0, len(result)):
                     result[i] = int(result[i])
